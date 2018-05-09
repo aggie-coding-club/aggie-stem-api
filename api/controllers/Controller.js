@@ -80,6 +80,7 @@ exports.userSearch = function(req, res) {
                         res.send(err);
                     else {
                         let allStudents = students.concat(students2);
+                        console.log(allStudents);
                         res.json({users: allStudents});
                     }
                 });
