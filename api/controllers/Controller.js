@@ -75,7 +75,7 @@ exports.userSearch = function(req, res) {
             if(err)
                 res.send(err);
             else {
-                User.find({firstname: lastname}, function(err, students2){
+                User.find({lastname: firstname}, function(err, students2){
                     if(err)
                         res.send(err);
                     else {
