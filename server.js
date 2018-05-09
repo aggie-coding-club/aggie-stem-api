@@ -1,7 +1,7 @@
 var express = require('express'),
     app = express(),
     port = process.env.PORT || 3000,
-    domain = 'stem-dev.education.tamu.edu';
+    domain = process.env.DOMAIN || 'localhost';
     mongoose = require('mongoose');
     Task = require('./api/models/Model'),
     bodyParser = require('body-parser')
