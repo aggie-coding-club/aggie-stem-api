@@ -29,7 +29,7 @@ exports.medicallookup = function(req,res){
         if(err) res.send(err);
         let level = staff.userrole;
         if(staff) {
-            User.findOne({firstname: req.query.firstname, lastname: req.query.lastname}, (err, student) => {
+            User.findOne({username: req.query.searchusername}, (err, student) => {
                 if(err)
                     res.send(err);
                 else if(!student) 
