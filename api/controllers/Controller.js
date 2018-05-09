@@ -75,7 +75,14 @@ exports.userSearch = function(req, res) {
             if(err)
                 res.send(err);
             else {
-                res.json({users: students});
+                User.find({lastname}, function(err, students2){
+                    if(err)
+                        res.send(err);
+                    else {
+                        let allStudents = students.concat(students2);
+                        res.json({users: allStudents});
+                    }
+                });
             }
         });
     } else if(lastname.length > 0) {
