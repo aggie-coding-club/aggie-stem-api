@@ -1,0 +1,29 @@
+{
+  "name": "aggie-stem-api",
+  "version": "1.0.0",
+  "description": "This is the api that is used for the Aggie STEM App",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/aggie-coding-club/aggie-stem-api.git"
+  },
+  "author": "Thomas McDonald, Ruben Vazquez, Alexander Coronado",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/aggie-coding-club/aggie-stem-api/issues"
+  },
+  "homepage": "https://github.com/aggie-coding-club/aggie-stem-api#readme",
+  "devDependencies": {
+    "nodemon": "^1.17.1"
+  },
+  "dependencies": {
+    "body-parser": "^1.18.2",
+    "express": "^4.16.2",
+    "mongoose": "^5.0.7",
+    "package.json": "^2.0.1"
+  }
+}
