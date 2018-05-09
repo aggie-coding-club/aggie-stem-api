@@ -18,7 +18,7 @@ app.use(bodyParser.json());
 var routes = require('./api/routes/Routes'); 
 routes(app);
 
-app.listen(port);
-
-console.log(`API started on port ${port}`);
+app.listen(port, () => {
+    console.log(`API started on port ${port}`);
+});
 
