@@ -20,25 +20,25 @@ var Schema = mongoose.Schema;
 //     }
 // });
 
-var StudentSchema = new Schema({
+var UserSchema = new Schema({
     username:{
         type: String,
-        required: 'Username required'
+        required: true
     },
     password:{
         type: String,
-        required: 'Password Required'
+        required: true
     },
-    firstname:{type: String},
-    lastname:{type: String},
-    userrole:{type: int},
-    scheduletype:{type: String},
-    camp:{type: int},
-    email:{type: String},
+    firstname:{type: String, required: true},
+    lastname:{type: String, required: true},
+    userrole:{type: int, default: 2},
+    scheduletype:{type: String, required: true},
+    camp:{type: int, default: 1},
+    email:{type: String, default: ""},
     medicine:[{name:{type: String}, AM:{type: bool}, PM:{type:bool}}],
-    otcrestrictions:{type:[String]},
-    comments:{type:String}
+    otcrestrictions:{type:[String], default: ""},
+    comments:{type:String, default: ""}
 });
 
 // module.exports = mongoose.model('Tasks', TaskSchema);
-modele.exports = mongoose.model('Student', StudentSchema);
+modele.exports = mongoose.model('User', UserSchema);

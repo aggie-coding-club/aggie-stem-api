@@ -1,53 +1,56 @@
 'use strict';
 
 var mongoose = require('mongoose'),
-    Task = mongoose.model('Tasks');
+    User = mongoose.model('User');
 
     
 exports.login = function(req,res){
-    Student.find({'username':req.params.username}, function(err, student){
+    User.findOne({username:req.params.username}, function(err, student){
         if(err)
             res.send(err);
-        res.json(student._id);
+        res.json({username: student.username, firstname: student.firstname, lastname: student.lastname});
     });
 };
    
 exports.getschedule = function(req,res){
-    Student.find({'username': req.params.username}, function(err, student){
+    User.findOne({username: req.params.username}, function(err, student){
         if(err)
             res.send(err);
-        res.json(studnet.scheduletype);
+        res.json({scheduletype: student.scheduletype});
     });
 };
 
 exports.medicallookup = function(req,res){
-    var staff = Student.find({'username': req.params.username})
-    level = staff.userrole;
-    var query = Student.find().where('firstname').equals(req.params.firstname).where('lastname').equals(req.params.lastname);
-    query.exec(function(err, student){
-        if(err)
-            res.send(err);
-        if(level == 0)
-            res.json({student.medicine, student.otcrestrictions});
-        else if(level == 1)
-            res.json(student.otcrestrictions);
-        else
-            res.json(0);
+    User.findOne({username: req.params.username}, (err, staff) => {
+        if(err) res.send(err);
+        let level = staff.userrole;
+
+        User.findOne({firstname: req.params.firstname, lastname: req.params.lastname}, (err, student) => {
+            if(err)
+                res.send(err);
+            else if(level == 0)
+                res.json({medicine: student.medicine, otcrestrictions: student.otcrestrictions});
+            else if(level == 1)
+                res.json({medicine: undefined, otcrestrictions: student.otcrestrictions});
+            else
+                res.json({medicine: undefined, otcrestrictions: undefined});
+        });
     });
 };
 
 exports.signout = function(req,res){
-    res.json(SUCC:'Logged out');
+    res.json({SUCC:'Logged out'});
 };
 
 exports.adduser = function(req,res){
-    var new_user = new Student(req.body);
+    var new_user = new User(req.body);
     new_user.save(function(err,student){
         if(err)
             res.send(err);
         res.json(student);
     });
 };
+
 // //this will attempt to list all the tasks, will error out if fails
 // exports.list_all_tasks = function(req,res) {
 //     Task.find({}, function(err, task){

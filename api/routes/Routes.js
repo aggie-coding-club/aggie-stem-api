@@ -23,4 +23,7 @@ module.exports = function(app) {
         
     app.route('/signout')
         .post(aggieStem.signout);
+
+    app.route('/adduser')
+        .post(aggieStem.adduser);
 };
