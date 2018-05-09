@@ -28,17 +28,20 @@ exports.medicallookup = function(req,res){
     User.findOne({username: req.query.username}, (err, staff) => {
         if(err) res.send(err);
         let level = staff.userrole;
-
-        User.findOne({firstname: req.query.firstname, lastname: req.query.lastname}, (err, student) => {
-            if(err)
-                res.send(err);
-            else if(level == 0)
-                res.json({medicine: student.medicine, otcrestrictions: student.otcrestrictions});
-            else if(level == 1)
-                res.json({medicine: undefined, otcrestrictions: student.otcrestrictions});
-            else
-                res.json({medicine: undefined, otcrestrictions: undefined});
-        });
+        if(staff) {
+            User.findOne({firstname: req.query.firstname, lastname: req.query.lastname}, (err, student) => {
+                if(err)
+                    res.send(err);
+                else if(!student) 
+                    res.json({error: 'No student'});
+                else if(level == 0)
+                    res.json({medicine: student.medicine, otcrestrictions: student.otcrestrictions});
+                else if(level == 1)
+                    res.json({medicine: undefined, otcrestrictions: student.otcrestrictions});
+                else
+                    res.json({medicine: undefined, otcrestrictions: undefined});
+            });
+        }
     });
 };
 
@@ -52,7 +55,6 @@ exports.adduser = function(req,res){
         if(err)
             res.send(err);
         res.json(student);
-        console.log(student);
     });
 };
 
