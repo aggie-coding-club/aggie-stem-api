@@ -5,7 +5,7 @@ var mongoose = require('mongoose'),
 
     
 exports.login = function(req,res){
-    User.findOne({username:req.params.username}, function(err, student){
+    User.findOne({username:req.body.username}, function(err, student){
         if(err)
             res.send(err);
         res.json({username: student.username, firstname: student.firstname, lastname: student.lastname});
@@ -13,19 +13,23 @@ exports.login = function(req,res){
 };
    
 exports.getschedule = function(req,res){
-    User.findOne({username: req.params.username}, function(err, student){
+    // let query = User.where({username: req.params.username});
+    User.findOne({username: req.query.username}, function(err, student){
         if(err)
             res.send(err);
-        res.json({scheduletype: student.scheduletype});
+        else if(student)
+            res.json({scheduletype: student.scheduletype});
+        else
+            res.json({error: 'No student'});
     });
 };
 
 exports.medicallookup = function(req,res){
-    User.findOne({username: req.params.username}, (err, staff) => {
+    User.findOne({username: req.query.username}, (err, staff) => {
         if(err) res.send(err);
         let level = staff.userrole;
 
-        User.findOne({firstname: req.params.firstname, lastname: req.params.lastname}, (err, student) => {
+        User.findOne({firstname: req.query.firstname, lastname: req.query.lastname}, (err, student) => {
             if(err)
                 res.send(err);
             else if(level == 0)
@@ -48,6 +52,7 @@ exports.adduser = function(req,res){
         if(err)
             res.send(err);
         res.json(student);
+        console.log(student);
     });
 };
 

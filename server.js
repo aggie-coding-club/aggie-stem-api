@@ -7,7 +7,7 @@ var express = require('express'),
 
 //mongoose instance connection 
 mongoose.Promise = global.Promise;
-mongoose.connect('mongodb://localhost:27107/test');
+mongoose.connect('mongodb://localhost:27017/StemAPP');
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
@@ -20,5 +20,5 @@ routes(app);
 
 app.listen(port);
 
-console.log("API started");
+console.log(`API started on port ${port}`);
 

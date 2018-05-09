@@ -31,14 +31,14 @@ var UserSchema = new Schema({
     },
     firstname:{type: String, required: true},
     lastname:{type: String, required: true},
-    userrole:{type: int, default: 2},
+    userrole:{type: Number, default: 2},
     scheduletype:{type: String, required: true},
-    camp:{type: int, default: 1},
+    camp:{type: Number, default: 1},
     email:{type: String, default: ""},
-    medicine:[{name:{type: String}, AM:{type: bool}, PM:{type:bool}}],
+    medicine:[{name:{type: String}, AM:{type: Boolean}, PM:{type: Boolean}, amount: {type: String}}],
     otcrestrictions:{type:[String], default: ""},
     comments:{type:String, default: ""}
 });
 
 // module.exports = mongoose.model('Tasks', TaskSchema);
-modele.exports = mongoose.model('User', UserSchema);
+module.exports = mongoose.model('User', UserSchema);
