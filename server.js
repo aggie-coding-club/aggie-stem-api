@@ -1,6 +1,7 @@
 var express = require('express'),
     app = express(),
-    port = process.env.PORT || 3000;
+    port = process.env.PORT || 3000,
+    domain = 'stem-dev.education.tamu.edu';
     mongoose = require('mongoose');
     Task = require('./api/models/Model'),
     bodyParser = require('body-parser')
@@ -18,7 +19,7 @@ app.use(bodyParser.json());
 var routes = require('./api/routes/Routes'); 
 routes(app);
 
-app.listen(port, () => {
+app.listen(port, domain,() => {
     console.log(`API started on port ${port}`);
 });
 
