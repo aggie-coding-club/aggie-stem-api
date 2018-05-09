@@ -26,4 +26,7 @@ module.exports = function(app) {
 
     app.route('/adduser')
         .post(aggieStem.adduser);
+        
+    app.route('/searchusers')
+        .get(aggieStem.userSearch);
 };

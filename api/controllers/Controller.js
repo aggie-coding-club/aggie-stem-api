@@ -58,6 +58,38 @@ exports.adduser = function(req,res){
     });
 };
 
+exports.userSearch = function(req, res) {
+    let firstname = req.query.firstname;
+    let lastname = req.query.lastname;
+
+    if(firstname.length > 0 && lastname.length > 0){
+        User.find({firstname, lastname}, function(err, students){
+            if(err)
+                res.send(err);
+            else {
+                res.json({users: students});
+            }
+        });
+    } else if(firstname.length > 0) {
+        User.find({firstname}, function(err, students){
+            if(err)
+                res.send(err);
+            else {
+                res.json({users: students});
+            }
+        });
+    } else if(lastname.length > 0) {
+        User.find({lastname}, function(err, students){
+            if(err)
+                res.send(err);
+            else {
+                res.json({users: students});
+            }
+        });
+    } else
+        res.json({users: []});
+}
+
 // //this will attempt to list all the tasks, will error out if fails
 // exports.list_all_tasks = function(req,res) {
 //     Task.find({}, function(err, task){
