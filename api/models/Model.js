@@ -55,7 +55,7 @@ var encKey = process.env.ENC_KEY_32;
 var sigKey = process.env.SIGN_KEY_64;
 
 // encrypt medicine regardless of any other options. name and _id will be left unencrypted
-userSchema.plugin(encrypt, { encryptionKey: encKey, signingKey: sigKey, encryptedFields: ['medicine'] });
+UserSchema.plugin(encrypt, { encryptionKey: encKey, signingKey: sigKey, encryptedFields: ['medicine'] });
 
   
 // module.exports = mongoose.model('Tasks', TaskSchema);
