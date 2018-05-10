@@ -9,6 +9,7 @@ var crypto = require('crypto'),
     password = process.env.ENC_KEY_32;
 
 function encrypt(text){
+    console.log('Text', typeof(text), text);
     var cipher = crypto.createCipher(algorithm,password)
     var crypted = cipher.update(text,'utf8','hex')
     crypted += cipher.final('hex');
