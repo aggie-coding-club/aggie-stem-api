@@ -17,9 +17,10 @@ exports.getschedule = function(req,res){
     User.findOne({username: req.query.username}, function(err, student){
         if(err)
             res.send(err);
-        else if(student)
-            res.json({scheduletype: student.scheduletype});
-        else
+        else if(student) {
+            let {schedule} = require(`../schedules/camp${student.camp}${student.scheduletype}`)
+            res.json({schedule});
+        } else
             res.json({error: 'No student'});
     });
 };
@@ -80,7 +81,6 @@ exports.userSearch = function(req, res) {
                         res.send(err);
                     else {
                         let allStudents = students.concat(students2);
-                        console.log(allStudents);
                         res.json({users: allStudents});
                     }
                 });
