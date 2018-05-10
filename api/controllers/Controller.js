@@ -9,7 +9,6 @@ var crypto = require('crypto'),
     password = process.env.ENC_KEY_32;
 
 function encrypt(text){
-    console.log('Text', typeof(text), text);
     var cipher = crypto.createCipher(algorithm,password)
     var crypted = cipher.update(text,'utf8','hex')
     crypted += cipher.final('hex');
@@ -24,14 +23,18 @@ function decrypt(text){
 }
 
 function encryptMedicine(medicine) {
-    medicine.name = encrypt(medicine.name);
-    medicine.amount = encrypt(medicine.amount);
+    for(let prescription of medicine) {
+        prescription.name = encrypt(prescription.name);
+        prescription.amount = encrypt(prescription.amount);
+    }
     return medicine;
 }
 
 function decryptMedicine(medicine) {
-    medicine.name = decrypt(medicine.name);
-    medicine.amount = decrypt(medicine.amount);
+    for(let prescription of medicine) {
+        prescription.name = decrypt(prescription.name);
+        prescription.amount = decrypt(prescription.amount);
+    }
     return medicine;
 }
 
@@ -89,6 +92,8 @@ exports.adduser = function(req,res){
     if(req.user.userrole == 0) {
         // encrypt medicine
         let addedUser = req.body;
+        // console.log('User',addedUser);
+        // console.log('MEdicine', addedUser.medicine);
         addedUser.medicine = encryptMedicine(addedUser.medicine);
         var new_user = new User(addedUser);
         new_user.save(function(err,student){
