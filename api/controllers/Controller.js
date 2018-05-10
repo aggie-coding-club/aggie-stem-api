@@ -5,11 +5,12 @@ var mongoose = require('mongoose'),
 
     
 exports.login = function(req,res){
-    User.findOne({username:req.body.username}, function(err, student){
-        if(err)
-            res.send(err);
-        res.json({username: student.username, firstname: student.firstname, lastname: student.lastname});
-    });
+    // User.findOne({username:req.body.username}, function(err, student){
+    //     if(err)
+    //         res.send(err);
+    //     res.json({username: student.username, firstname: student.firstname, lastname: student.lastname});
+    // });
+    res.send(req.user);
 };
    
 exports.getschedule = function(req,res){
@@ -51,12 +52,16 @@ exports.signout = function(req,res){
 };
 
 exports.adduser = function(req,res){
-    var new_user = new User(req.body);
-    new_user.save(function(err,student){
-        if(err)
-            res.send(err);
-        res.json(student);
-    });
+    if(req.user.userrole == 0) {
+        var new_user = new User(req.body);
+        new_user.save(function(err,student){
+            if(err)
+                res.send(err);
+            res.json(student);
+        });
+    } else {
+        res.send({});
+    }
 };
 
 exports.userSearch = function(req, res) {

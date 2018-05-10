@@ -23,7 +23,8 @@ var Schema = mongoose.Schema;
 var UserSchema = new Schema({
     username:{
         type: String,
-        required: true
+        required: true,
+        unique: true
     },
     password:{
         type: String,
@@ -40,5 +41,13 @@ var UserSchema = new Schema({
     comments:{type:String, default: ""}
 });
 
+UserSchema.methods.verifyPassword = function(password, cb) {
+    // bcrypt.compare(password, this.password, function(err, isMatch) {
+    //   if (err) return cb(err);
+    //   cb(null, isMatch);
+    // });
+    cb(null, password == this.password);
+};
+  
 // module.exports = mongoose.model('Tasks', TaskSchema);
 module.exports = mongoose.model('User', UserSchema);

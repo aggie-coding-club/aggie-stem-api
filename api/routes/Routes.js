@@ -1,6 +1,8 @@
-'use strict';
-module.exports = function(app) {
-    var aggieStem = require('../controllers/Controller');
+var express = require('express');
+var router = express.Router();
+
+var aggieStem = require('../controllers/Controller');
+var {isAuthenticated} = require('../controllers/auth');
 
     //Routes
 //     app.route('/tasks')
@@ -12,21 +14,16 @@ module.exports = function(app) {
 //         .put(aggieStem.update_a_task)
 //         .delete(aggieStem.delete_a_task);
     
-    app.route('/login')
-        .post(aggieStem.login);
-        
-    app.route('/getschedule')
-        .get(aggieStem.getschedule);
-        
-    app.route('/medicallookup')
-        .get(aggieStem.medicallookup);
-        
-    app.route('/signout')
-        .post(aggieStem.signout);
+router.post('/login', isAuthenticated,aggieStem.login);
+    
+router.get('/getschedule', isAuthenticated,aggieStem.getschedule);
+    
+router.get('/medicallookup', isAuthenticated, aggieStem.medicallookup);
+    
+router.post('/signout',isAuthenticated,aggieStem.signout);
 
-    app.route('/adduser')
-        .post(aggieStem.adduser);
-        
-    app.route('/searchusers')
-        .get(aggieStem.userSearch);
-};
+router.post('/adduser',isAuthenticated,aggieStem.adduser);
+
+router.get('/searchusers',isAuthenticated,aggieStem.userSearch);
+
+module.exports = router;
