@@ -3,6 +3,37 @@
 var mongoose = require('mongoose'),
     User = mongoose.model('User');
 
+// Encryption
+var crypto = require('crypto'),
+    algorithm = 'aes-256-ctr',
+    password = process.env.ENC_KEY_32;
+
+function encrypt(text){
+    var cipher = crypto.createCipher(algorithm,password)
+    var crypted = cipher.update(text,'utf8','hex')
+    crypted += cipher.final('hex');
+    return crypted;
+}
+    
+function decrypt(text){
+    var decipher = crypto.createDecipher(algorithm,password)
+    var dec = decipher.update(text,'hex','utf8')
+    dec += decipher.final('utf8');
+    return dec;
+}
+
+function encryptMedicine(medicine) {
+    medicine.name = encrypt(medicine.name);
+    medicine.amount = encrypt(medicine.amount);
+    return medicine;
+}
+
+function decryptMedicine(medicine) {
+    medicine.name = decrypt(medicine.name);
+    medicine.amount = decrypt(medicine.amount);
+    return medicine;
+}
+
     
 exports.login = function(req,res){
     // User.findOne({username:req.body.username}, function(err, student){
@@ -36,11 +67,13 @@ exports.medicallookup = function(req,res){
                     res.send(err);
                 else if(!student) 
                     res.json({error: 'No student'});
-                else if(level == 0)
-                    res.json({medicine: student.medicine, otcrestrictions: student.otcrestrictions});
-                else if(level == 1)
+                else if(level == 0) {
+                    // decrypt medicine
+                    let medicine = decryptMedicine(student.medicine);
+                    res.json({medicine, otcrestrictions: student.otcrestrictions});
+                } else if(level == 1) {
                     res.json({medicine: undefined, otcrestrictions: student.otcrestrictions});
-                else
+                } else
                     res.json({medicine: undefined, otcrestrictions: undefined});
             });
         }
@@ -53,7 +86,10 @@ exports.signout = function(req,res){
 
 exports.adduser = function(req,res){
     if(req.user.userrole == 0) {
-        var new_user = new User(req.body);
+        // encrypt medicine
+        let addedUser = req.body;
+        addedUser.medicine = encryptMedicine(addedUser.medicine);
+        var new_user = new User(addedUser);
         new_user.save(function(err,student){
             if(err)
                 res.send(err);
