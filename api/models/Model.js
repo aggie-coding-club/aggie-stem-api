@@ -1,5 +1,6 @@
 'use strict';
 var mongoose = require('mongoose');
+var encrypt = require('mongoose-encryption');
 var Schema = mongoose.Schema;
 
 // var TaskSchema = new Schema({
@@ -48,6 +49,14 @@ UserSchema.methods.verifyPassword = function(password, cb) {
     // });
     cb(null, password == this.password);
 };
+
+// Encryption
+var encKey = process.env.ENC_KEY_32;
+var sigKey = process.env.SIGN_KEY_64;
+
+// encrypt medicine regardless of any other options. name and _id will be left unencrypted
+userSchema.plugin(encrypt, { encryptionKey: encKey, signingKey: sigKey, encryptedFields: ['medicine'] });
+
   
 // module.exports = mongoose.model('Tasks', TaskSchema);
 module.exports = mongoose.model('User', UserSchema);
